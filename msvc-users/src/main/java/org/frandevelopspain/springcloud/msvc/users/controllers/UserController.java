@@ -8,10 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
+import java.util.*;
 
 @RestController
 public class UserController {
@@ -36,13 +34,19 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?>create(@Valid @RequestBody User user, BindingResult result){
+        if (!user.getEmail().isEmpty() && service.byEmail(user.getEmail()).isPresent()){
+            return ResponseEntity.badRequest()
+                    .body(Collections.singletonMap("message", "The user already exists with this email"));
+        }
+
         if(result.hasErrors()){
             return validate(result);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?>update(@Valid @RequestBody User user,BindingResult result,@PathVariable Long id){
+    public ResponseEntity<?>update(@Valid @RequestBody User user,BindingResult result,
+                                   @PathVariable Long id){
         if(result.hasErrors()){
             return validate(result);
         }
@@ -50,6 +54,13 @@ public class UserController {
         Optional<User> o = service.byId(id);
         if (o.isPresent()){
             User userDb = o.get();
+            if (!user.getEmail().isEmpty() &&
+                    !user.getEmail().equalsIgnoreCase(userDb.getEmail())
+                    && service.byEmail(user.getEmail()).isPresent()){
+                return ResponseEntity.badRequest()
+                        .body(Collections.singletonMap("message", "The user already exists with this email"));
+            }
+
             userDb.setName(user.getName());
             userDb.setEmail(user.getEmail());
             userDb.setPassword(user.getPassword());
