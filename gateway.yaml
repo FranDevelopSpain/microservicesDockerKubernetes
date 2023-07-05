@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msvc-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: msvc-gateway
+  template:
+    metadata:
+      labels:
+        role: msvc-gateway
+    spec:
+      containers:
+        - name: msvc-gateway
+          image: frandevelopspain/gateway:latest
+          ports:
+            - containerPort: 8090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: msvc-gateway
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8090
+      targetPort: 8090
+  selector:
+    role: msvc-gateway

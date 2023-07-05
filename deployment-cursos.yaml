@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msvc-courses
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msvc-courses
+  template:
+    metadata:
+      labels:
+        app: msvc-courses
+    spec:
+      containers:
+        - name: courses
+          image: frandevelopspain/courses:latest
+          ports:
+            - containerPort: 8002
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-courses
+                  key: port
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-courses
+                  key: db_host
+            - name: DB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-courses
+                  key: database
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-courses
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-courses
+                  key: password
+            - name: USUARIOS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-courses
+                  key: usuario_url

@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: msvc_users
+data:
+  lb_auth_issuer_uri: http://172.27.154.44:31492
+  lb_usuarios_uri: http://172.27.154.44:31326
+  port: "8001"
+  db_host: "mysql8:3306"
+  database: msvc_users
+#  username: root
+#  password: sasa
+  curso_url: "msvc-courses:8002"
+  application.yaml: |-
+    config:
+      texto: Configurando ambiente por defecto
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: dev
+    config:
+      texto: Configurando ambiente de desarrollo
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: prod
+    config:
+      texto: Configurando ambiente de produccion
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: msvc-courses
+data:
+  port: "8002"
+  db_host: "postgres14:5432"
+  database: msvc-courses
+#  username: postgres
+#  password: sasa
+  usuario_url: "msvc-users:8001"

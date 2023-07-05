@@ -14,6 +14,8 @@
   <modules>
     <module>msvc-users</module>
     <module>msvc-courses</module>
+    <module>msvc-gateway</module>
+    <module>msvc-auth</module>
   </modules>
   <name>Archetype - project</name>
   <url>http://maven.apache.org</url>
