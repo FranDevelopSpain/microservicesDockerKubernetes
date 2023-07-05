@@ -1,12 +1,11 @@
 package org.frandevelopspain.springcloud.msvc.auth.services;
 
-import org.frandevelopspain.springcloud.msvc.auth.models.Usuario;
+import org.frandevelopspain.springcloud.msvc.auth.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,20 +25,20 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
 
-            Usuario usuario = client
+            User user = client
                     .build()
                     .get()
                     .uri("http://msvc-users/login", uri -> uri.queryParam("email", email).build())
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
-                    .bodyToMono(Usuario.class)
+                    .bodyToMono(User.class)
                     .block();
 
-            log.info("Usuario login: " + usuario.getEmail());
-            log.info("Usuario nombre: " + usuario.getNombre());
-            log.info("Password: " + usuario.getPassword());
+            log.info("Usuario login: " + user.getEmail());
+            log.info("Usuario nombre: " + user.getNombre());
+            log.info("Password: " + user.getPassword());
 
-            return new User(email, usuario.getPassword(), true, true, true, true,
+            return new org.springframework.security.core.userdetails.User(email, user.getPassword(), true, true, true, true,
                     Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
         } catch (RuntimeException e) {
             String error = "Error en el login, no existe el usuario " + email +

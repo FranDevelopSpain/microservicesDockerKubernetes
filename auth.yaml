@@ -18,11 +18,11 @@ spec:
           ports:
             - containerPort: 9000
           env:
-            - name: LB_USUARIOS_URI
+            - name: LB_USERS_URI
               valueFrom:
                 configMapKeyRef:
                   name: msvc-users
-                  key: lb_usuarios_uri
+                  key: lb_users_uri
 ---
 apiVersion: v1
 kind: Service

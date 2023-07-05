@@ -43,8 +43,8 @@ spec:
                 secretKeyRef:
                   name: msvc-courses
                   key: password
-            - name: USUARIOS_URL
+            - name: USERS_URL
               valueFrom:
                 configMapKeyRef:
                   name: msvc-courses
-                  key: usuario_url
+                  key: user_url

@@ -41,7 +41,7 @@ services:
       DB_DATABASE: msvc_users
       DB_USERNAME: root
       DB_PASSWORD: sasa
-      CURSOS_URL: msvc-courses:8002
+      COURSES_URL: msvc-courses:8002
     networks:
       - spring
     depends_on:
@@ -62,7 +62,7 @@ services:
       DB_DATABASE: msvc_courses
       DB_USERNAME: postgres
       DB_PASSWORD: sasa
-      USUARIOS_URL: msvc-users:8001
+      USERS_URL: msvc-users:8001
     networks:
       - spring
     depends_on:

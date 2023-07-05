@@ -96,15 +96,15 @@ public class SecurityConfig {
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("usuarios-client")
+                .clientId("users-client")
                 //.clientSecret("{noop}12345")
                 .clientSecret(passwordEncoder().encode("12345"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri(env.getProperty("LB_USUARIOS_URI") + "/login/oauth2/code/msvc-usuarios-client")
-                .redirectUri(env.getProperty("LB_USUARIOS_URI") + "/authorized")
+                .redirectUri(env.getProperty("LB_USERS_URI") + "/login/oauth2/code/msvc-users-client")
+                .redirectUri(env.getProperty("LB_USERS_URI") + "/authorized")
                 .scope(OidcScopes.OPENID)
                 .scope("read")
                 .scope("write")

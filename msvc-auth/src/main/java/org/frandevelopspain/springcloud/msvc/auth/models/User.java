@@ -1,6 +1,6 @@
 package org.frandevelopspain.springcloud.msvc.auth.models;
 
-public class Usuario {
+public class User {
     private Long id;
 
     private String nombre;
